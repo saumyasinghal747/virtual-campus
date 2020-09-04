@@ -1,4 +1,4 @@
-# campus
+# Gunn Campus
 
 ## Project setup
 ```
