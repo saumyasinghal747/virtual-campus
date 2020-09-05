@@ -2,11 +2,24 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import {auth,  usersRef} from './firebase/firebase'
+import * as firebase from "firebase";
+
+
+// Install BootstrapVue
 
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  store,
-  render: function (h) { return h(App) }
-}).$mount('#app')
+
+let app;
+auth.onAuthStateChanged((user) => {
+  if (!app) {
+    app = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+
+})
+

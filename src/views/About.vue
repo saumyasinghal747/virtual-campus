@@ -3,9 +3,15 @@
     <h1 class="mb-4">About</h1>
     <p>This is a virtual version of the Gunn Campus. Here's some things on the roadmap:</p>
     <ul>
+        <li>Tollbooth 0</li>
+        <ul>
+            <li class="text-grass"><s>Ability to log in with Google</s></li>
+            <li class="text-grass"><s>Inability to log in without a PAUSD email</s></li>
+            <li>Save some user data and recall on log in</li>
+        </ul>
      <li>Tollbooth 1</li>
       <ul>
-        <li>Ability to navigate your character around the grid campus</li>
+        <li>Ability to navigate your character around the grid campus & save location data in your profile</li>
         <li>Each square will have a capacity of 4 characters.</li>
         <li>Ability to 'fly' to some square after having a certain amount of XP.</li>
       </ul>
@@ -25,6 +31,6 @@
       </ul>
     </ul>
 
-      <p class="pt-5">Created by Saumya Singhal. Last updated Thursday, September 3rd, 2020.</p>
+      <p class="pt-5">Created by Saumya Singhal. Last updated Friday, September 4rd, 2020.</p>
   </div>
 </template>

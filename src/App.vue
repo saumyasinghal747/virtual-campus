@@ -18,7 +18,6 @@
 
 <style>
 
-@import url(https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css);
 @import "../public/colors.css";
   #app {
     height:100vh;
@@ -39,7 +38,7 @@
   }
 
 .nav-pills .nav-link:hover:not(.router-link-exact-active){
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.3); /*translucent overlay on the red bg*/
     
   }
 
