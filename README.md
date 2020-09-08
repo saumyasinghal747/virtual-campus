@@ -1,5 +1,8 @@
 # Gunn Campus
+ 
+Miss going to school? Then go to school! Sign in with your PAUSD account to get access to the virtual campus.
 
+https://gunnwebapp.web.app
 ## Project setup
 ```
 npm install

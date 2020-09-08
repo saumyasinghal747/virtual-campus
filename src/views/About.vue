@@ -6,16 +6,16 @@
       <img  class="img-fluid p-3" src="https://media.discordapp.net/attachments/742498215533871254/752646924183666708/unknown.png" alt="A view of the entire campus"/>
       <p> Here's some things on the roadmap:</p>
     <ul>
-        <li>Tollbooth 0</li>
+        <li>Tollbooth 0 <b-badge variant="success">PASSED</b-badge></li>
         <ul>
             <li class="text-grass"><s>Ability to log in with Google</s></li>
             <li class="text-grass"><s>Inability to log in without a PAUSD email</s></li>
             <li class="text-grass"><s>Make the campus</s></li>
-            <li>Save some user data and recall on log in</li>
+            <li class="text-grass">Save some user data and recall on log in</li>
         </ul>
      <li>Tollbooth 1</li>
       <ul>
-          <li><span class="text-grass"><s>Ability to navigate your character around the grid campus</s></span> & save location data in your profile</li>
+          <li><span class="text-grass"><s>Ability to navigate your character around the grid campus & save location data in your profile</s></span></li>
           <li class="text-grass"><s>Each square will have a capacity of 4 characters.</s></li>
         <li>Ability to 'fly' to some square after having a certain amount of XP.</li>
       </ul>
