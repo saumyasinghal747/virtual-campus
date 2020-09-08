@@ -13,7 +13,7 @@
             <li class="text-grass"><s>Make the campus</s></li>
             <li class="text-grass">Save some user data and recall on log in</li>
         </ul>
-     <li>Tollbooth 1</li>
+     <li>Tollbooth 1<b-badge variant="info">IN PROGRESS</b-badge> </li>
       <ul>
           <li><span class="text-grass"><s>Ability to navigate your character around the grid campus & save location data in your profile</s></span></li>
           <li class="text-grass"><s>Each square will have a capacity of 4 characters.</s></li>
