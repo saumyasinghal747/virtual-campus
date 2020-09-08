@@ -4,6 +4,7 @@
       <div style="white-space: normal; display: inline-block;" v-for="j in i" ><Cell :people="j.people" :variant="j.type"  /></div>
     </div>
 <Compass/>
+    <zoom/>
   </div>
 </template>
 
@@ -12,9 +13,11 @@
 import Cell from "@/components/Cell";
 import Compass from "../components/compass";
 import Vuex, {mapState} from 'vuex';
+import Zoom from "../components/zoom";
 export default {
   name: 'Home',
   components: {
+    Zoom,
     Compass,
     Cell
   },

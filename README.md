@@ -10,9 +10,9 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies for production and publishes to web
 ```
-npm run build
+npm run build  && firebase deploy
 ```
 
 ### Customize configuration

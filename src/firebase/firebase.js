@@ -13,8 +13,8 @@ const firebaseConfig = {
     appId: "1:175691721563:web:a024e47fe806265f06887e",
     measurementId: "G-QFH27J81KP"
 };
-firebase.initializeApp(firebaseConfig)
-
+const project = firebase.initializeApp(firebaseConfig)
+console.log(project.name);
 // utils
 const db = firebase.database()
 const auth = firebase.auth()
@@ -24,12 +24,15 @@ provider.addScope('profile');
 provider.addScope('email');
 const usersRef = db.ref('/users')
 const roomsRef = db.ref('/rooms')
-
+const gridRef = db.ref('/grid')
 // export utils/refs
 export {
     db,
     auth,
     usersRef,
     roomsRef,
+    gridRef,
     firebase
 }
+
+
