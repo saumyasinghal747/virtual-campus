@@ -1,5 +1,5 @@
 <template>
-    <div  style="position:fixed;bottom:2vh;right:2vw;width:10.5rem;height: 10.5rem;border-radius: 50%;opacity:0.5;" class="bg-black">
+    <div v-if="$store.state.userProfile.uid" style="position:fixed;bottom:2vh;right:2vw;width:10.5rem;height: 10.5rem;border-radius: 50%;opacity:0.5;" class="bg-black">
         <span @click="$store.dispatch('moveUserUp')"><b-avatar variant="light" style="transform: translateX(4rem) translateY(1rem)" >
             <b-icon-caret-up-fill></b-icon-caret-up-fill>
         </b-avatar></span>

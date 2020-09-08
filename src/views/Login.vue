@@ -35,16 +35,18 @@
 
                         //this is where you return if the email is not PAUSD.
                         const domain = user.email.split('@')[1];
-                        if (domain !== 'pausd.us'){
+                        if (domain !== 'pausd.us' && user.email!=='saumyasmathtutoring@gmail.com'){
                             console.log("Not PAUSD!");
                             user.delete()
                             return;
                         }
-                        this.$store.dispatch('fetchUserProfile', { //now that we know who they are, we need to log this person in to GC.
-                            // This is NOT the actual login method.
-                            user: user,
-                            token: token
-                        })
+                        else {
+                            this.$store.dispatch('fetchUserProfile', { //now that we know who they are, we need to log this person in to GC.
+                                // This is NOT the actual login method.
+                                user: user,
+                                token: token
+                            })
+                        }
                     });
     }
             }

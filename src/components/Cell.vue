@@ -2,9 +2,10 @@
 
 <template>
     <!-- this should be 20vhx20vh and 0.12vh border in production--><!--class="p-3"-->
-    <div style="height:20vh;width: 20vh;border:solid 1vh rgba(0%,0%,0%,0.1)" class="p-3"  :class="'bg-'+variant">
-        <span  >
-             <b-avatar size="2.5em" v-for="person in people" :badge="true" badge-variant="success" variant="gunn"  style="cursor: pointer;" v-b-tooltip.hover :title="person.username">{{ person.username.split(' ').map(v => v.substring(0,1)).join('') }}</b-avatar>
+    <div style="border:solid 1vh rgba(0%,0%,0%,0.1)" :style="{height:$store.getters.zoomInfo.cellSize,width:$store.getters.zoomInfo.cellSize}" :class="'bg-'+variant+' '+$store.getters.zoomInfo.padding">
+        <span v-if="$store.getters.zoomInfo.people" >
+
+             <b-avatar :size="$store.getters.zoomInfo.uSize" v-for="person of people" :badge="$store.getters.zoomInfo.uBadge" badge-variant="success" variant="gunn"  style="cursor: pointer;" v-b-tooltip.hover :title="person.username">{{ person.username.split(' ').map(v => v.substring(0,1)).join('') }}</b-avatar>
         </span>
     </div>
 </template>

@@ -5,6 +5,7 @@
     </div>
 <Compass/>
     <zoom/>
+
   </div>
 </template>
 
@@ -12,37 +13,15 @@
 // @ is an alias to /src
 import Cell from "@/components/Cell";
 import Compass from "../components/compass";
-import Vuex, {mapState} from 'vuex';
 import Zoom from "../components/zoom";
+import MiniMap from "../components/MiniMap";
 export default {
   name: 'Home',
   components: {
+    MiniMap,
     Zoom,
     Compass,
     Cell
-  },
-  data(){
-    return {
-      x:2,
-      y:2,
-      /*grid:[
-        [
-          [],[],[],[],[]
-        ],
-        [
-          [],[],[],[],[]
-        ],
-        [
-          [],[],[{username:'Saumya Singhal'},{username:'Ada Lovelace'},{username:'John Doe'},{username:'Thomas Edison'}],[],[]
-        ],
-        [
-          [],[],[],[],[]
-        ],
-        [
-          [],[],[],[],[]
-        ]
-      ]*/
-    }
   },
   computed:{
     grid (){
