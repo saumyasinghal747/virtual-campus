@@ -1,5 +1,5 @@
 <template>
-  <div class="about bg-black container my-5 text-light p-0" style="height: 100%;width: 100%">
+  <div class="about bg-black container m-5 text-light p-0" style="height: 100%;width: 100%">
     <h1 class="mb-4">About</h1>
       <p>This is a virtual version of the Gunn Campus.</p>
 
@@ -13,10 +13,11 @@
             <li class="text-grass"><s>Make the campus</s></li>
             <li class="text-grass">Save some user data and recall on log in</li>
         </ul>
-     <li>Tollbooth 1<b-badge variant="info">IN PROGRESS</b-badge> </li>
+     <li>Tollbooth 1 <b-badge variant="info">IN PROGRESS</b-badge> </li>
       <ul>
-          <li><span class="text-grass"><s>Ability to navigate your character around the grid campus & save location data in your profile</s></span></li>
+          <li class="text-grass"><s>Ability to navigate your character around the grid campus & save location data in your profile</s></li>
           <li class="text-grass"><s>Each square will have a capacity of 4 characters.</s></li>
+          <li><b-badge variant="primary">DEPLOYED</b-badge> </li>
         <li>Ability to 'fly' to some square after having a certain amount of XP.</li>
       </ul>
       <li>Tollbooth 2</li>

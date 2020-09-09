@@ -7,12 +7,16 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/vue-fontawesome": "^2.0.0",
     "@material/radio": "^7.0.0",
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.16.0",
     "firebase": "^7.19.1",
     "jquery": "^3.5.1",
     "materialize-css": "^1.0.0-rc.2",
+    "smoothscroll-polyfill": "^0.4.4",
     "vue": "^2.6.12",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
