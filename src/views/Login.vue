@@ -3,6 +3,7 @@
         <h1>Please log in.</h1>
         <h4>Remember to use your PAUSD account!</h4>
         <img class="mt-5 " id="gButton" @mouseout="toggleButton" @mouseenter="toggleButton" :src="gButton"  @click="signIn" alt="Sign in with Google"/>
+        <b-modal id="my-modal">Sorry, but your email must end in 'pausd.us'. If you're a teacher and are trying to sign in with a 'pausd.org' account, please email <a href="mailto:ss44523@pausd.us">ss44523@pausd.us</a> to create a teacher mode.</b-modal>
     </div>
 </template>
 <script>
@@ -38,6 +39,14 @@
                         if (domain !== 'pausd.us' && user.email!=='saumyasmathtutoring@gmail.com'){
                             console.log("Not PAUSD!");
                             user.delete()
+                            this.$bvModal.msgBoxOk(
+                                [this.$createElement('p', { domProps: { innerHTML: `Sorry, but your email must end in 'pausd.us'.<br/><br/> If you're a teacher and are trying to sign in with a 'pausd.org' account, please email <a  href="mailto:ss44523@pausd.us" class="text-gunn">ss44523@pausd.us</a> to create a teacher mode.` } })]
+                                , {
+                                centered:true,
+                                    title:'PAUSD only!',
+
+                                okVariant:"gunn"
+                            })
                             return;
                         }
                         else {

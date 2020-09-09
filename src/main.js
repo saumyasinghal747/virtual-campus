@@ -7,10 +7,16 @@ import router from './router'
 import store from './store'
 import {auth,  usersRef} from './firebase/firebase'
 import * as firebase from "firebase";
-
-
+/*import smoothscroll from 'smoothscroll-polyfill';
+//this doesnt work
+// kick off the polyfill!
+smoothscroll.polyfill();*/
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+library.add(faPaperPlane)
 // Install BootstrapVue
-
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 
 

@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { usersRef, gridRef, auth} from "../firebase/firebase";
+import looseEqual from "bootstrap-vue/esm/utils/loose-equal";
 
 Vue.use(Vuex)
 
@@ -85,6 +86,7 @@ export default store = new Vuex.Store({
       usersRef.child(target).update({
         location:[payload.x,payload.y]
       })
+      document.querySelector('.home').childNodes[payload.y].childNodes[payload.x].scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
     },
     setGrid(state, grid) {
       state.grid = grid
@@ -136,6 +138,12 @@ export default store = new Vuex.Store({
         y: currLoc[1]
       })
     },
+    moveNowhere(context){
+      const target = context.state.users[context.state.userProfile.uid]
+      const currLoc = target.location;
+      document.querySelector('.home').childNodes[currLoc[1]].childNodes[currLoc[0]].scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+
+    },
     async fetchUserProfile({commit}, user, token) {
       // fetch user profile - this is called when the user has just signed in.
 
@@ -177,7 +185,10 @@ usersRef.on('value',function(snapshot){
 // on auth state changed, update the user profile.
 auth.onAuthStateChanged(function(user){
   if (user){
-
+    if (user.email.split('@')[1]!=='pausd.us' && user.email !=='saumyasmathtutoring@pausd.us'){
+      user.delete()
+      return;
+    }
     //get the saved location and log it to the console
     //user just signed in
     console.log(user.displayName);
@@ -201,8 +212,13 @@ auth.onAuthStateChanged(function(user){
           type:'updateUserLocation',
           x, y
         })
+        location = [x,y];
       }
+      document.querySelector('.home').childNodes[location[1]].childNodes[location[0]].scrollIntoView({
+        behavior:'smooth',block:'center',inline:'center'
+      })
     })
+
   }
   else{
     store.commit('setProfile',{uid:null})
