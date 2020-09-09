@@ -189,6 +189,7 @@ auth.onAuthStateChanged(function(user){
       user.delete()
       return;
     }
+
     //get the saved location and log it to the console
     //user just signed in
     console.log(user.displayName);
