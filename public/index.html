@@ -3,12 +3,56 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico"/>
+    <link rel="icon" href="<%= BASE_URL %>favicon.png"/>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
-  <body>
+  <body style="background-color: black">
+  <style>
+    @keyframes slideInUp {
+      0% {
+        transform: translateY(100%);
+        opacity: 0;
+        position:inherit;
+
+      }
+      10% {
+        transform: translateY(0);
+        opacity: 100%;
+        position:inherit;
+      }
+      90% {
+        transform: translateY(0);
+        opacity: 100%;
+        position:inherit;
+      }
+      100% {
+        transform: translateY(-100%);
+        opacity: 0;
+        position:inherit;
+      }
+    }
+    @keyframes slideIn {
+      0% {
+        transform: translateY(100%);
+        opacity: 0;
+        position:absolute;
+
+
+      }
+      75%{
+        transform: translateY(100%);
+        opacity: 0;
+        position:inherit;
+      }
+
+      100% {
+        transform: translateY(0);
+        opacity: 100%;
+        position: inherit;color:var(--gunn)
+      }
+    }
+  </style>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>

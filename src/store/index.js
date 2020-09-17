@@ -1,15 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router/index'
-import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { usersRef, gridRef, auth} from "../firebase/firebase";
-import looseEqual from "bootstrap-vue/esm/utils/loose-equal";
+import {auth, gridRef, usersRef} from "../firebase/firebase";
 
 Vue.use(Vuex)
 
-function getRndInteger(min, max) {
+function getRndInteger(min, max) { //could be useful for the coins...
   return Math.floor(Math.random() * (max - min) ) + min;
 }
 Array.prototype.remove = function() {
@@ -79,7 +77,8 @@ export default store = new Vuex.Store({
 
 
       gridRef.child(payload.y+'/'+payload.x+'/people/'+target).set({
-        username:auth.currentUser.displayName
+        username:auth.currentUser.displayName,
+        photo: auth.currentUser.photoURL
       })
       //denormalize
       //state.users[state.userProfile.uid].location = [payload.x, payload.y]
@@ -105,38 +104,58 @@ export default store = new Vuex.Store({
     moveUserUp(context) {
       const target = context.state.users[context.state.userProfile.uid]
       const currLoc = target.location;
-      context.commit({
-        type: 'updateUserLocation',
-        x: currLoc[0],
-        y: currLoc[1] - 1
-      })
+      if (currLoc[1]===0){
+        return;
+      }
+      else {
+        context.commit({
+          type: 'updateUserLocation',
+          x: currLoc[0],
+          y: currLoc[1] - 1
+        })
+      }
     },
     moveUserDown({state, commit}) {
       const target = state.users[state.userProfile.uid]
       const currLoc = target.location;
-      commit({
-        type: 'updateUserLocation',
-        x: currLoc[0],
-        y: currLoc[1] + 1
-      })
+      if (currLoc[1]===69){
+        return;
+      }
+      else {
+        commit({
+          type: 'updateUserLocation',
+          x: currLoc[0],
+          y: currLoc[1] + 1
+        })
+      }
     },
     moveUserLeft({state, commit}) {
       const target = state.users[state.userProfile.uid]
       const currLoc = target.location;
-      commit({
-        type: 'updateUserLocation',
-        x: currLoc[0] - 1,
-        y: currLoc[1]
-      })
+      if (currLoc[0]===0){
+        return;
+      }
+      else {
+        commit({
+          type: 'updateUserLocation',
+          x: currLoc[0] - 1,
+          y: currLoc[1]
+        })
+      }
     },
     moveUserRight({state, commit}) {
       const target = state.users[state.userProfile.uid]
       const currLoc = target.location;
-      commit({
-        type: 'updateUserLocation',
-        x: currLoc[0] + 1,
-        y: currLoc[1]
-      })
+      if (currLoc[0]===99){
+        return;
+      }
+      else {
+        commit({
+          type: 'updateUserLocation',
+          x: currLoc[0] + 1,
+          y: currLoc[1]
+        })
+      }
     },
     moveNowhere(context){
       const target = context.state.users[context.state.userProfile.uid]
@@ -151,12 +170,22 @@ export default store = new Vuex.Store({
 
 
       // change route to home
-      await router.push('/')
+      await router.push('/app')
+    },
+    sendMessage(context,msg){
+      const target = context.state.users[context.state.userProfile.uid]
+      const currLoc = target.location;
+      gridRef.child(currLoc[1]+'/'+currLoc[0]+'/people/'+context.state.userProfile.uid).update({
+        saying:{
+          message:msg,
+          since:new Date()
+        }
+      })
     }
   },
   modules: {},
   getters:{
-    userLocation(context){
+    userLocation(state){
       usersRef.child(auth.currentUser.uid).once('value',function(snapshot){
         location = (snapshot.val()||{location:null}).location;
         //if the user has a saved location, use that
@@ -167,6 +196,12 @@ export default store = new Vuex.Store({
     },
     zoomInfo(state){
       return state.zoomLevels[state.zoom]
+    },
+    distanceTo: (state) => (payload)=>{
+      const currLoc = state.users[state.userProfile.uid].location;
+      const b= ((currLoc[0]-payload.x)**2)+(currLoc[1]-payload.y)**2
+      //console.log(currLoc);
+      return Math.sqrt(b)
     }
   }
 
@@ -186,39 +221,45 @@ usersRef.on('value',function(snapshot){
 auth.onAuthStateChanged(function(user){
   if (user){
     if (user.email.split('@')[1]!=='pausd.us' && user.email !=='saumyasmathtutoring@pausd.us'){
+      console.log("Not PAUSD!!")
       user.delete()
       return;
     }
 
-    //get the saved location and log it to the console
-    //user just signed in
-    console.log(user.displayName);
-    store.commit('setProfile',user);
+    else {//get the saved location and log it to the console
+      //user just signed in
+      console.log(user.displayName);
+      store.commit('setProfile', user);
 
-    let location;
-    usersRef.child(user.uid).once('value',function(snapshot){
-      location = (snapshot.val()||{location:null}).location;
-      if (location){ //if the user has a saved location, use that
-        console.log("Using saved location:"+location)
-        store.commit({
-          type:'updateUserLocation',
-          x: location[0], y:location[1]
-        })
-      }
-      else{ //otherwise place them somewhere random on the grid.
-        const x = 3//70//getRndInteger(0,100);
-        const y=3//65//getRndInteger(0,70);
-        console.log("Placing randomly at"+[x,y])
-        store.commit({
-          type:'updateUserLocation',
-          x, y
-        })
-        location = [x,y];
-      }
-      document.querySelector('.home').childNodes[location[1]].childNodes[location[0]].scrollIntoView({
-        behavior:'smooth',block:'center',inline:'center'
+      let location;
+      usersRef.child(user.uid).once('value', function (snapshot) {
+        location = (snapshot.val() || {location: null}).location;
+        if (location) { //if the user has a saved location, use that
+          console.log("Using saved location:" + location)
+          /*store.commit({
+            type:'updateUserLocation',
+            x: location[0], y:location[1]
+          })*/
+        } else { //otherwise place them somewhere random on the grid.
+          const x = 3//70//getRndInteger(0,100);
+          const y = 3//65//getRndInteger(0,70);
+          console.log("Placing randomly at" + [x, y])
+          store.commit({
+            type: 'updateUserLocation',
+            x, y
+          })
+          location = [x, y];
+        }
+        try {
+          document.querySelector('.home').childNodes[location[1]].childNodes[location[0]].scrollIntoView({
+            behavior: 'smooth', block: 'center', inline: 'center'
+          })
+        }
+        catch (e) {
+          console.log("your wifi is slow man")
+        }
       })
-    })
+    }
 
   }
   else{

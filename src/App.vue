@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="row" >
+    <!--
     <div class="col-3  bg-gunn" style="">
       <h1  class="mx-3 text-light my-5"><img height="50rem" class="pr-2 mb-2" src="https://resources.finalsite.net/images/f_auto,q_auto/v1574549382/pausdorg/qo9sgse4olm17gzfydud/henrygunn-hs.png"/>Gunn Campus</h1>
       <div class="nav mx-3 flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -8,11 +9,12 @@
         <router-link class="nav-link" to="/about">About</router-link>
 
      </div>
-    </div>
-    <div  class="col-9 bg-black p-1" style="width: 100%;overflow: scroll;height: 100vh">
+    </div>-->
+    <div  class="col-12 bg-black p-1" style="width: 100%;overflow: scroll;height: 100vh">
+      <Menu></Menu>
       <router-view/>
     </div>
-
+  <NoLogin/>
   </div>
 </template>
 
@@ -46,3 +48,10 @@
     background-color: var(--black);
   }
 </style>
+<script>
+  import Menu from "./components/Menu";
+  import NoLogin from "./components/NoLogin";
+  export default {
+    components: {NoLogin, Menu}
+  }
+</script>

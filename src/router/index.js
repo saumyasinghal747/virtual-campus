@@ -2,15 +2,31 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import { auth, provider } from '../firebase/firebase'
+import Greeter from "../views/Greeter";
+import NoLogin from "../components/NoLogin";
+import msgBar from "../components/msgBar";
+import Info from "../components/Info";
 Vue.use(VueRouter)
 
   const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Greeter',
+    component: Greeter,
 
   },
+    {
+      path: '/tmp',
+      name:'Tester',
+      component: Info
+    },
+
+    {
+      path: '/app',
+      name: 'Home',
+      component: Home,
+
+    },
     {
       path: '/settings',
       name: 'Settings',

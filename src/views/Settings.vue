@@ -2,10 +2,11 @@
     <div class="about bg-black container my-5 text-light p-0" style="height: 100%;width: 100%">
         <h1 class="mb-4">Settings</h1>
 
-        <form>
+
+        <!--<form>
             <label class="form-row">Username <input class="form-control mt-2 bg-dark border-dark text-light"/>
             </label>
-        </form>
+        </form>-->
         <!--<form>
             <p class="form-text">Color</p>
             <label>
@@ -28,9 +29,19 @@
                      router.push('/')
                 }).catch(function(error) {
                     // An error happened.
+                    console.log('error');alert(error);
                 });
 
             }
         }
     }
 </script>
+<style scoped>
+    @import '~vue-context/dist/css/vue-context.css';
+    .v-context {
+        background-color: var(--dark);
+    }
+    .v-context li a:hover {
+        background-color: var(--gray);
+    }
+</style>

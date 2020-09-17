@@ -1,10 +1,11 @@
 {
-  "name": "campus",
+  "name": "gunn-campus",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "deploy": "vue-cli-service build && firebase deploy"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -14,10 +15,17 @@
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.16.0",
     "firebase": "^7.19.1",
+    "firebase-admin": "^9.1.1",
+    "idle": "0.0.0",
+    "idle-js": "^1.2.0",
     "jquery": "^3.5.1",
     "materialize-css": "^1.0.0-rc.2",
     "smoothscroll-polyfill": "^0.4.4",
     "vue": "^2.6.12",
+    "vue-context": "^6.0.0",
+    "vue-directive-long-press": "^1.1.0",
+    "vue-material": "^1.0.0-beta-15",
+    "vue-moment": "^4.1.0",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
   },
