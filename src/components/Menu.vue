@@ -34,6 +34,9 @@
             <md-button :class="$route.path==='/about'? 'active':''" @click="$router.push('/about')" class="md-icon-button ">
                 <font-awesome-icon icon="info"></font-awesome-icon>
             </md-button>
+            <md-button :class="$route.path==='/elimination'? 'active':''" @click="$router.push('/elimination')" class="md-icon-button ">
+                <b-icon-dice5></b-icon-dice5>
+            </md-button>
         </md-speed-dial-content>
     </MdSpeedDial>
 </template>

@@ -4,7 +4,7 @@ import router from '../router/index'
 import 'firebase/auth'
 import 'firebase/database'
 import {auth, gridRef, usersRef} from "../firebase/firebase";
-
+const apiBase = 'https://mangoice.herokuapp.com/campus'
 Vue.use(Vuex)
 
 function getRndInteger(min, max) { //could be useful for the coins...
@@ -23,14 +23,15 @@ Array.prototype.remove = function() {
 var store;
 export default store = new Vuex.Store({
   state: {
-    userProfile: {
-      uid: null //for testing, i'll set some random uid
+    token:null,
+    userProfile: {uid: null, photoURL:null, displayName: null, email:null},
+    elimination:{
+      username:null,
+      target:null,
+      score:null
     },
-    grid: //paste below :D
-        []
-    ,users: {
-
-    },
+    grid:[],
+    users: {},
     zoomLevels: [
       {cellSize:'20vh',uSize:'2.5em',uBadge:true,padding:'p-3',people:true}, //0
       {cellSize:'15vh',uSize:'2em',uBadge:true,padding:'p-2',people:true},//1
@@ -41,6 +42,9 @@ export default store = new Vuex.Store({
     zoom:0
   },
   mutations: {
+    setEliminationUser(state,username){
+      state.elimination.username=username
+    },
     increaseZoom(state){
       //actually subtracting one
       if(state.zoom!==0){
@@ -53,45 +57,23 @@ export default store = new Vuex.Store({
         state.zoom++
       }
     },
-    updateUserLocation(state, payload) {
-
-      const target = auth.currentUser.uid //find out who is logged in for which we need to change the location
-      if (!target){
-        return;
-      }
-      let currLoc;
-      usersRef.child(target).once('value',function(snapshot){
-        currLoc = snapshot.val().location;
-        if (!currLoc){
-          return;
-        }
-
-        else{
-          // access the row then the cell. We'll be storing data differently - the object uid:{username}
-          gridRef.child(currLoc[1]+'/'+currLoc[0]+'/people/'+target).set(null)
-        }
+    async updateUserLocation(state, direction) {
+      const token = state.token;
+      const response = await fetch(`${apiBase}/${direction}/${token}`,{
+        method:'POST'
       })
+      const {newLocation:{0:x, 1:y}} = await response.json();
 
-
-
-
-
-      gridRef.child(payload.y+'/'+payload.x+'/people/'+target).set({
-        username:auth.currentUser.displayName,
-        photo: auth.currentUser.photoURL
-      })
-      //denormalize
-      //state.users[state.userProfile.uid].location = [payload.x, payload.y]
-      usersRef.child(target).update({
-        location:[payload.x,payload.y]
-      })
-      document.querySelector('.home').childNodes[payload.y].childNodes[payload.x].scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+      document.querySelector('.home').childNodes[y].childNodes[x].scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+    },
+    async setToken(state){
+      state.token = await auth.currentUser.getIdToken()
     },
     setGrid(state, grid) {
       state.grid = grid
     },
     setProfile(state,payload){
-      state.userProfile.uid = payload.uid; //yeah that's about it .. access everything else from users.
+      state.userProfile = payload; //yeah that's about it .. access everything else from users.
       // Use users to access the grid.
 
     },
@@ -101,61 +83,17 @@ export default store = new Vuex.Store({
     }
   },
   actions: {
-    moveUserUp(context) {
-      const target = context.state.users[context.state.userProfile.uid]
-      const currLoc = target.location;
-      if (currLoc[1]===0){
-        return;
-      }
-      else {
-        context.commit({
-          type: 'updateUserLocation',
-          x: currLoc[0],
-          y: currLoc[1] - 1
-        })
-      }
+    async moveUserUp(context) {
+      context.commit('updateUserLocation','up')
     },
-    moveUserDown({state, commit}) {
-      const target = state.users[state.userProfile.uid]
-      const currLoc = target.location;
-      if (currLoc[1]===69){
-        return;
-      }
-      else {
-        commit({
-          type: 'updateUserLocation',
-          x: currLoc[0],
-          y: currLoc[1] + 1
-        })
-      }
+    async moveUserDown({state, commit}) {
+      commit('updateUserLocation','down')
     },
-    moveUserLeft({state, commit}) {
-      const target = state.users[state.userProfile.uid]
-      const currLoc = target.location;
-      if (currLoc[0]===0){
-        return;
-      }
-      else {
-        commit({
-          type: 'updateUserLocation',
-          x: currLoc[0] - 1,
-          y: currLoc[1]
-        })
-      }
+    async moveUserLeft({state, commit}) {
+      commit('updateUserLocation','left')
     },
-    moveUserRight({state, commit}) {
-      const target = state.users[state.userProfile.uid]
-      const currLoc = target.location;
-      if (currLoc[0]===99){
-        return;
-      }
-      else {
-        commit({
-          type: 'updateUserLocation',
-          x: currLoc[0] + 1,
-          y: currLoc[1]
-        })
-      }
+    async moveUserRight({state, commit}) {
+      commit('updateUserLocation','right')
     },
     moveNowhere(context){
       const target = context.state.users[context.state.userProfile.uid]
@@ -198,7 +136,10 @@ export default store = new Vuex.Store({
       return state.zoomLevels[state.zoom]
     },
     distanceTo: (state) => (payload)=>{
-      const currLoc = state.users[state.userProfile.uid].location;
+      const currLoc = (state.users[state.userProfile.uid]||{location:false}).location;
+      if (!currLoc){
+        return 4
+      }
       const b= ((currLoc[0]-payload.x)**2)+(currLoc[1]-payload.y)**2
       //console.log(currLoc);
       return Math.sqrt(b)
@@ -220,10 +161,11 @@ usersRef.on('value',function(snapshot){
 // on auth state changed, update the user profile.
 auth.onAuthStateChanged(function(user){
   if (user){
+    store.commit('setToken');
     if (user.email.split('@')[1]!=='pausd.us' && user.email !=='saumyasmathtutoring@pausd.us'){
       console.log("Not PAUSD!!")
       user.delete()
-      return;
+      return null;
     }
 
     else {//get the saved location and log it to the console
@@ -241,14 +183,11 @@ auth.onAuthStateChanged(function(user){
             x: location[0], y:location[1]
           })*/
         } else { //otherwise place them somewhere random on the grid.
-          const x = 3//70//getRndInteger(0,100);
-          const y = 3//65//getRndInteger(0,70);
-          console.log("Placing randomly at" + [x, y])
-          store.commit({
-            type: 'updateUserLocation',
-            x, y
-          })
-          location = [x, y];
+          //const x = 3//70//getRndInteger(0,100);
+          //const y = 3//65//getRndInteger(0,70);
+          console.log("Placing randomly at" + [3,3])
+          store.commit('updateUserLocation','up')// reset to 3,3 happens automatically
+          location = [3,3];
         }
         try {
           document.querySelector('.home').childNodes[location[1]].childNodes[location[0]].scrollIntoView({

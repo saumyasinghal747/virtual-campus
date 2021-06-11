@@ -1,4 +1,4 @@
-import '@babel/polyfill'
+import '@babel/polyfill/noConflict'
 import 'mutationobserver-shim'
 import Vue from 'vue'
 import './plugins/bootstrap-vue'
@@ -19,9 +19,9 @@ import * as firebase from "firebase";
 // kick off the polyfill!
 smoothscroll.polyfill();*/
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPaperPlane, faCog, faInfo,faPlus,faHome,faBars,faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faCog, faInfo,faPlus,faHome,faBars,faTimes, faPen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faPaperPlane);
+library.add(faPaperPlane);library.add(faPen)
 library.add(faCog);
 library.add(faInfo);library.add(faPlus);library.add(faHome);library.add(faTimes);library.add(faBars)
 // Install BootstrapVue

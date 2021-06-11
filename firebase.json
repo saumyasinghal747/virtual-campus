@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "gunncampus",
     "public": "dist",
     "ignore": [
       "firebase.json",

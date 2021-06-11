@@ -3,9 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import { auth, provider } from '../firebase/firebase'
 import Greeter from "../views/Greeter";
-import NoLogin from "../components/NoLogin";
-import msgBar from "../components/msgBar";
-import Info from "../components/Info";
+import EliminationLogin from "../views/EliminationLogin";
+import EliminationHub from "../views/EliminationHub";
 Vue.use(VueRouter)
 
   const routes = [
@@ -18,7 +17,20 @@ Vue.use(VueRouter)
     {
       path: '/tmp',
       name:'Tester',
-      component: Info
+      component: EliminationLogin
+    },
+    {
+      path: '/elimination/login',
+      name:'Elimination Login',
+      component: EliminationLogin
+    },
+    {
+      path: '/elimination',
+      name:'Elimination',
+      component: EliminationHub,
+      meta: {
+        requiresEliminationAuth:true
+      }
     },
 
     {
@@ -69,13 +81,23 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  const requiresEliminationAuth = to.matched.some(x => x.meta.requiresEliminationAuth);
+  const eliminationSession = localStorage.getItem('elimination_session');
   if (requiresAuth && !auth.currentUser) {
     next('/login')
-  } else {
+  }
+  else if (requiresEliminationAuth && !eliminationSession){
+    next('/elimination/login')
+  }
+  else if (to.fullPath === "/elimination/login" && eliminationSession){
+    next('/elimination')
+  }
+  else {
     next()
   }
+
+
 })
 
 export default router

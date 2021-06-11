@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-
+import 'firebase/storage'
 // firebase init - add your own config here
 const firebaseConfig = {
     apiKey: "AIzaSyCL3_AgVhmoUf2mBgB-qt3SjKeLwf0J5iY",
@@ -17,6 +17,7 @@ const project = firebase.initializeApp(firebaseConfig)
 console.log(project.name);
 // utils
 const db = firebase.database()
+const storage = firebase.storage()
 const auth = firebase.auth()
 export var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -25,6 +26,7 @@ provider.addScope('email');
 const usersRef = db.ref('/users')
 const roomsRef = db.ref('/rooms')
 const gridRef = db.ref('/grid')
+
 // export utils/refs
 export {
     db,
@@ -32,7 +34,8 @@ export {
     usersRef,
     roomsRef,
     gridRef,
-    firebase
+    firebase,
+    storage
 }
 
 

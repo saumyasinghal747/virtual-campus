@@ -7,6 +7,7 @@
 <Compass/>
     <zoom/>
     <info/>
+      <show-target/>
 <MsgBar v-on:message="sendMessage" />
   </div>
 </template>
@@ -19,9 +20,11 @@ import Zoom from "../components/zoom";
 import MiniMap from "../components/MiniMap";
 import MsgBar from "../components/msgBar";
 import Info from "../components/Info";
+import ShowTarget from "../components/showTarget";
 export default {
   name: 'Home',
   components: {
+      ShowTarget,
     Info,
     MsgBar,
     MiniMap,
